@@ -26,17 +26,19 @@
                     <h1>To Do List</h1>
                 </div>
                 <div id="nameList"></div>
-                <!-- Start To Do List -->
+
+            <!-- Start To Do List -->
                 <div class="col-8" id="formList">
                     <form>
+                        <h6 class="text-center fw-bold">Liste des tâches</h6>
                         <div class="input-group mb-3">
                             <input
                                 id="task"
                                 type="text"
                                 class="form-control rounded-start"
                                 placeholder="ex : Gagner au loto" />
-                            <button class="btn btn-outline-secondary" type="button" id="addElement">
-                                <i class="bi bi-plus-circle"></i>
+                            <button class="btn btn-outline-secondary" type="button" id="btnAdd">
+                                <i id="plus-circle" class="bi bi-plus-circle text-dark"></i>
                             </button>
                         </div>
                     </form>
@@ -46,13 +48,15 @@
                 </div>
                 <!-- middle buttons -->
                 <div id="buttons">
-                    <button type="button" id="endedTaskButton" class="btn btn-primary shadow">Tâche terminées</button>
-                    <button type="button" id="reset" class="btn btn-primary shadow">Remise à zéro</button>
+                    <button  type="button" id="endedTaskButton" class="btn btn-primary shadow" data-bs-toggle="collapse" data-bs-target="#endedTaskCollapse" aria-expanded="false" aria-controls="endedTaskCollapse">Tâches terminées</button>
+                    <button type="button" id="btnReset" class="btn btn-primary shadow">Remise à zéro</button>
                 </div>
             </div>
             <!-- Display ended Task -->
-            <div class="row justify-content-center">
-                <div class="col-8 text-center p-4" id="CompletedTask"></div>
+            <div class="row justify-content-center" class="collapse" id="endedTaskCollapse">
+                <div class="col-8 p-4" id="CompletedTask">
+                    <h6 class="text-center fw-bold">Tâches terminées</h6>
+                </div>
             </div>
         </div>
         <script

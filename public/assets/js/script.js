@@ -1,29 +1,52 @@
-let addElement = document.querySelector('#addElement');
-let element;
-let counter = 0;
+"use strict"
+let btnAddEl = document.getElementById('btnAdd')
+let taksList = document.getElementById('list')
+let taskEl = document.getElementById('task')
+let todolist = []
+let btnResetEl = document.getElementById('btnReset')
 
-if (localStorage.getItem('elements')){
-    element = JSON.parse(localStorage.getItem('elements'));
-} else {
-    element = []
+/*Fonction intermediare */
+const updateDom = () => {
+    let taskInputText = taskEl.value
+    let listItem = document.createElement("li")
+    let spanItem = document.createElement("span")
+    spanItem.innerHTML = `<i class="bi bi-trash"></i>`
+    listItem.id = Date.now()
+    listItem.innerHTML = taskInputText
+    taksList.appendChild(listItem)
+    listItem.appendChild(spanItem)
 }
 
-addElement.addEventListener('click', (e) => {
-    e.preventDefault();
-    let inputEl = document.getElementById('task').value;
-    element.push(inputEl);
-    let elementstringify = JSON.stringify(element);
-    localStorage.setItem('element', elementstringify);
-    console.log(elementstringify);
-    task.value = ''
+const saveTask = () => {
+    let taskElValue = taskEl.value
+    todolist.push(taskElValue)
+    let todolistStringify = JSON.stringify(todolist)
+    localStorage.setItem('todolist', todolistStringify)
+    // console.log(elementstringify);  
+}
+const clearStorage = () => {
+    localStorage.removeItem('todolist')
+    taksList.innerHTML = ''
+}
 
-})
+/* fonction principale */
+const addTask = () => {
+    updateDom()
+    saveTask()
+    taskEl.value = ''
+}
+const restoreTask = () => {
+    if (localStorage.getItem('todolist')) {
+        todolist = JSON.parse(localStorage.getItem('todolist'))
+    }
+}
+const deleteAllTask = () => {
+    clearStorage()
+}
 
-
-// inputEl.forEach(inputEl => {
-//     if (inputEl.id == 'task0') { 
-// inputEl.id = 'task' + counter;
-//     }
-// });
+/* ecouteur d'evenement */
+btnAddEl.addEventListener('click', addTask)
+btnResetEl.addEventListener('click', deleteAllTask)
+window.addEventListener('load', restoreTask)
 
 
