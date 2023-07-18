@@ -9,12 +9,17 @@ let btnResetEl = document.getElementById('btnReset')
 const updateDom = () => {
     let taskInputText = taskEl.value
     let listItem = document.createElement("li")
-    let spanItem = document.createElement("span")
-    spanItem.innerHTML = `<i class="bi bi-trash"></i>`
+    let spanItemTrash = document.createElement("span")
+    let spanItemPencil = document.createElement("span")
+    spanItemTrash.classList.add('spanItemTrash')
+    spanItemPencil.classList.add('spanItemPencil')
+    spanItemPencil.innerHTML = `<i class="bi bi-pencil"></i>`
+    spanItemTrash.innerHTML = `<i class="bi bi-trash"></i>`
     listItem.id = Date.now()
     listItem.innerHTML = taskInputText
     taksList.appendChild(listItem)
-    listItem.appendChild(spanItem)
+    listItem.append(spanItemPencil)
+    listItem.appendChild(spanItemTrash)
 }
 
 const saveTask = () => {
@@ -24,6 +29,7 @@ const saveTask = () => {
     localStorage.setItem('todolist', todolistStringify)
     // console.log(elementstringify);  
 }
+
 const clearStorage = () => {
     localStorage.removeItem('todolist')
     taksList.innerHTML = ''
