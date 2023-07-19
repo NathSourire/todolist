@@ -13,13 +13,13 @@ h1 {
     padding: 20px;
     margin: 20px;
     background-color: rgba(255, 255, 255, 0.15);
-	-webkit-backdrop-filter: blur(15px);
-	backdrop-filter: blur(15px);
-	padding: 50px 25px;
-	-webkit-box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
-	border: 1.5px solid rgba(255, 255, 255, 0.06);
-	border-radius: 8px;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    padding: 50px 25px;
+    -webkit-box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
 }
 .endedTaskButton {
     background: rgba(178, 234, 233, 0.75);
@@ -35,7 +35,7 @@ h1 {
     background: rgba(255, 0, 0, 0.75);
     border-radius: 10px;
     border: 0.5px rgba(0, 0, 0, 0.25) solid;
-    color: black;
+    color: white;
     word-wrap: break-word;
 }
 #btnReset:hover {
@@ -51,43 +51,42 @@ h1 {
     padding: 20px;
     margin: 20px;
     background-color: rgba(255, 255, 255, 0.15);
-	-webkit-backdrop-filter: blur(15px);
-	backdrop-filter: blur(15px);
-	padding: 50px 25px;
-	-webkit-box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
-	border: 1.5px solid rgba(255, 255, 255, 0.06);
-	border-radius: 8px;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    padding: 50px 25px;
+    -webkit-box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
 }
-#plus-circle{
+#plus-circle {
     font-size: 1.2rem;
 }
-#btnAdd:hover{
+#btnAdd:hover {
     background: rgb(3, 156, 153);
 }
-ul{
+ul {
     list-style-type: none;
+    margin: 0;
 }
-.spanItemTrash{
-    justify-content: space-between;
+li {
+    font-size: 1.3rem;
 }
-.spanItemTrash button{
+.editDeleteBtn button {
     background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
 }
-.spanItemPencil{
+ul li {
+    width: 100%;
 }
-.spanItemPencil button{
-    background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+.textTask {
+    width: 100%;
+}
+.editDeleteBtn {
+    width: 8%;
 }

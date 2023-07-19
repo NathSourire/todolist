@@ -10,24 +10,17 @@ let btnResetEl = document.getElementById('btnReset')
 const updateDom = () => {
     let taskInputText = taskEl.value
     let listItem = document.createElement("li")
-    let spanItemTrash = document.createElement("span")
-    let spanItemPencil = document.createElement("span")
     listItem.classList.add('d-flex')
-    spanItemTrash.classList.add('spanItemTrash', 'justify-content-end')
-    spanItemPencil.classList.add('spanItemPencil')
-    spanItemPencil.innerHTML = `<button><i class="bi bi-pencil"></i></button>`
-    spanItemTrash.innerHTML = `<button><i class="bi bi-trash"></i></button>`
+    listItem.innerHTML = `<div class="textTask form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">${taskInputText}</div>
+    <div class="editDeleteBtn "><button class = "btnPencilLi" type=button><i class="bi bi-pencil"></i></button><button class= 'btnTrashLi' type=button><i class="bi bi-trash"></i></button></div>`;
     listItem.id = Date.now()
-    listItem.innerHTML = taskInputText
     taskList.appendChild(listItem)
-    listItem.appendChild(spanItemPencil)
-    listItem.appendChild(spanItemTrash)
     return listItem.id
-}
 
+}
 // sauvegarde
 const saveTask = (listItemId) => {
-    console.log(listItemId)
     let taskElValue = listItemId + ' ' + taskEl.value
     todolist.push(taskElValue)
     let todolistStringify = JSON.stringify(todolist)
@@ -37,7 +30,7 @@ const saveTask = (listItemId) => {
 
 
 // const deleteTask = () => {
-
+//     spanItemTrash.id.removeItem('listItem')
 // }
 
 const clearStorage = () => {
@@ -59,9 +52,19 @@ const restoreTask = () => {
 const deleteAllTask = () => {
     clearStorage()
 }
+
+const editTask = () => {
+    let newInputTask = document.createElement('input')
+    newInputTask.type = 'text';
+    newInputTask.name= 'nouveauInput';
+    newInputTask.placeholder ="Saisir une nouvelle tâche";
+}
+
 /* ecouteur d'evenement */
 btnAddEl.addEventListener('click', addTask)
 btnResetEl.addEventListener('click', deleteAllTask)
+// btnTrashLi.addEventListener('click', deleteTask)
 window.addEventListener('load', restoreTask)
+
 
 
