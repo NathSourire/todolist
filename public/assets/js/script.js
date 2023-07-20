@@ -10,12 +10,13 @@ let btnFinishEl = document.getElementById('btnFinish')
 /*Fonction intermediare */
 // Ajout du code dans le HTML.
 const updateDom = () => {
-    let taskInputText = taskEl.value
+    let taskText = taskEl.value
     let listItem = document.createElement("li")
     listItem.classList.add('d-flex')
     listItem.id = Date.now()
-    listItem.innerHTML = `<div class= "textTask form-check form-switch" >
-    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"><span>${taskInputText}</span></div>
+    listItem.innerHTML = `<div class="textTask form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+    <input type='text' placeholder=${taskText}></div>
     <div class= "editDeleteBtn" </button><button class= 'btnTrashLi' type=button><i class="bi bi-trash"></i></button></div>`;
     taskList.appendChild(listItem)
     const checkbox = listItem.querySelector('.form-check-input');
@@ -56,11 +57,9 @@ const addTask = () => {
     taskEl.value = ''
 }
 const editTask = (listItem) => {
-    console.log(listItem.target.innerText)
-
 }
 const deleteTask = (listItem) => {
-    console.log(listItem.target.offsetTop)
+
 
 }
 // Fonction de restauration du local storage.
@@ -76,7 +75,7 @@ const restoreTask = () => {
             listItem.innerHTML = `
                 <div class="textTask form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                    <span>${taskText}</span>
+                    <input type='text' placeholder=${taskText}>
                 </div>
                 <div class="editDeleteBtn">
                     <button class="btnTrashLi" type="button"><i class="bi bi-trash"></i></button>
