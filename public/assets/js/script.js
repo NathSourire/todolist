@@ -6,6 +6,7 @@ let todolist = []
 let btnResetEl = document.getElementById('btnReset')
 let btnFinishEl = document.getElementById('btnFinish')
 
+
 /*Fonction intermediare */
 // Ajout du code dans le HTML.
 const updateDom = () => {
@@ -21,12 +22,12 @@ const updateDom = () => {
     checkbox.addEventListener('change', () => {
         if (checkbox.checked) {
             moveToCompletedTasks(listItem);
-        }  else {
+        } else {
             moveBackToTaskList(listItem);
         }
     });
     return listItem.id
-    
+
 }
 // sauvegarde
 const saveTask = (listItemId) => {
@@ -35,7 +36,7 @@ const saveTask = (listItemId) => {
     let todolistStringify = JSON.stringify(todolist)
     localStorage.setItem('todolist', todolistStringify)
     // console.log(elementstringify);
-    
+
 }
 
 const clearStorage = () => {
@@ -46,7 +47,7 @@ const clearStorage = () => {
 
 /* fonction principale */
 const addTask = () => {
-    if (taskEl.value === ""){
+    if (taskEl.value === "") {
         alert("Ajoutez une tâche s'il vous plaît !")
         return false;
     }
@@ -54,8 +55,12 @@ const addTask = () => {
     saveTask(listItemId)
     taskEl.value = ''
 }
-const editTask = () =>{
-let spanEl = document.querySelectorAll('span')
+const editTask = (listItem) => {
+    console.log(listItem.target.innerText)
+
+}
+const deleteTask = (listItem) => {
+    console.log(listItem.target.offsetTop)
 
 }
 // Fonction de restauration du local storage.
@@ -76,7 +81,8 @@ const restoreTask = () => {
                 <div class="editDeleteBtn">
                     <button class="btnTrashLi" type="button"><i class="bi bi-trash"></i></button>
                 </div>`;
-            taskList.appendChild(listItem);   
+            taskList.appendChild(listItem);
+
             const checkbox = listItem.querySelector('.form-check-input');
             checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {
@@ -86,7 +92,9 @@ const restoreTask = () => {
                     moveBackToTaskList(listItem);
                 }
             });
+
             listItem.addEventListener('click', editTask)
+            listItem.addEventListener('click', deleteTask)
         });
     }
 };
