@@ -26,8 +26,6 @@ const updateDom = () => {
         }
     });
     return listItem.id
-    listItem.document.createElement('input')
-    listItem.innerHTML = 'input'
     
 }
 // sauvegarde
@@ -57,7 +55,8 @@ const addTask = () => {
     taskEl.value = ''
 }
 const editTask = () =>{
-    
+let spanEl = document.querySelectorAll('span')
+
 }
 // Fonction de restauration du local storage.
 const restoreTask = () => {
@@ -78,7 +77,6 @@ const restoreTask = () => {
                     <button class="btnTrashLi" type="button"><i class="bi bi-trash"></i></button>
                 </div>`;
             taskList.appendChild(listItem);   
-            
             const checkbox = listItem.querySelector('.form-check-input');
             checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {
@@ -89,17 +87,18 @@ const restoreTask = () => {
                 }
             });
             listItem.addEventListener('click', editTask)
-            
         });
     }
 };
 
 const moveToCompletedTasks = (listItem) => {
     const completedTaskList = document.getElementById('CompletedTaskList');
+    listItem.style.textDecoration = "line-through"
     completedTaskList.appendChild(listItem);
 };
 const moveBackToTaskList = (listItem) => {
     const taskList = document.getElementById('list');
+    listItem.style.textDecoration = "none"
     taskList.appendChild(listItem);
 };
 
