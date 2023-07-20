@@ -1,123 +1,134 @@
-"use strict"
-let btnAddEl = document.getElementById('btnAdd')
-let taskList = document.getElementById('list')
-let taskEl = document.getElementById('task')
-let todolist = []
-let btnResetEl = document.getElementById('btnReset')
-let btnFinishEl = document.getElementById('btnFinish')
+"use strict";
 
+const taskList = document.getElementById("list");
+const taskEl = document.getElementById("task");
+const btnAddEl = document.getElementById("btnAdd");
+const btnResetEl = document.getElementById("btnReset");
+const completedTaskList = document.getElementById("CompletedTaskList");
 
-/*Fonction intermediare */
-// Ajout du code dans le HTML.
-const updateDom = () => {
-    let taskText = taskEl.value
-    let listItem = document.createElement("li")
-    listItem.classList.add('d-flex')
-    listItem.id = Date.now()
-    listItem.innerHTML = `<div class="textTask form-check form-switch">
-    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-    <input type='text' placeholder=${taskText}></div>
-    <div class= "editDeleteBtn" </button><button class= 'btnTrashLi' type=button><i class="bi bi-trash"></i></button></div>`;
-    taskList.appendChild(listItem)
-    const checkbox = listItem.querySelector('.form-check-input');
-    checkbox.addEventListener('change', () => {
+let todolist = [];
+
+// Fonction pour ajouter une tâche à la liste principale
+const addTask = () => {
+    if (taskEl.value === "") {
+        alert("Ajoutez une tâche s'il vous plaît !");
+        return false;
+    }
+
+    const taskInputText = taskEl.value;
+    const listItem = document.createElement("li");
+    listItem.classList.add("d-flex");
+    listItem.id = Date.now();
+    listItem.innerHTML = `
+        <div class="textTask form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <span>${taskInputText}</span>
+        </div>
+        <div class="editDeleteBtn">
+            <button class="btnTrashLi" type="button"><i class="bi bi-trash"></i></button>
+        </div>
+    `;
+
+    taskList.appendChild(listItem);
+
+    const checkbox = listItem.querySelector(".form-check-input");
+    checkbox.addEventListener("change", () => {
         if (checkbox.checked) {
             moveToCompletedTasks(listItem);
         } else {
             moveBackToTaskList(listItem);
         }
     });
-    return listItem.id
 
-}
-// sauvegarde
-const saveTask = (listItemId) => {
-    let taskElValue = listItemId + ' ' + taskEl.value
-    todolist.push(taskElValue)
-    let todolistStringify = JSON.stringify(todolist)
-    localStorage.setItem('todolist', todolistStringify)
-    // console.log(elementstringify);
+    saveTask(listItem.id, taskInputText);
+    taskEl.value = "";
+};
 
-}
+// Fonction pour déplacer une tâche vers la liste des tâches terminées
+const moveToCompletedTasks = (listItem) => {
+    listItem.style.textDecoration = "line-through";
+    completedTaskList.appendChild(listItem);
 
-const clearStorage = () => {
-    localStorage.removeItem('todolist')
-    taskList.innerHTML = '';
-    CompletedTaskList.innerHTML = '';
-}
+    // Mettre à jour le localStorage pour marquer la tâche comme terminée
+    updateLocalStorage(listItem.id, true);
+};
 
-/* fonction principale */
-const addTask = () => {
-    if (taskEl.value === "") {
-        alert("Ajoutez une tâche s'il vous plaît !")
-        return false;
-    }
-    let listItemId = updateDom()
-    saveTask(listItemId)
-    taskEl.value = ''
-}
-const editTask = (listItem) => {
-}
-const deleteTask = (listItem) => {
+// Fonction pour déplacer une tâche vers la liste principale
+const moveBackToTaskList = (listItem) => {
+    listItem.style.textDecoration = "none";
+    taskList.appendChild(listItem);
 
+    // Mettre à jour le localStorage pour marquer la tâche comme non terminée
+    updateLocalStorage(listItem.id, false);
+};
 
-}
-// Fonction de restauration du local storage.
+// Fonction pour enregistrer une tâche dans le localStorage
+const saveTask = (listItemId, taskText) => {
+    todolist.push({ id: listItemId, text: taskText });
+    localStorage.setItem("todolist", JSON.stringify(todolist));
+};
+
+// Fonction pour mettre à jour le localStorage lors du déplacement d'une tâche
+const updateLocalStorage = (listItemId, completed) => {
+    const updatedList = todolist.map((task) => {
+        if (task.id === listItemId) {
+            return { ...task, completed: completed };
+        }
+        return task;
+    });
+
+    todolist = updatedList;
+    localStorage.setItem("todolist", JSON.stringify(todolist));
+};
+
+// Fonction pour restaurer les tâches depuis le localStorage
 const restoreTask = () => {
-    if (localStorage.getItem('todolist')) {
-        todolist = JSON.parse(localStorage.getItem('todolist'));
+    if (localStorage.getItem("todolist")) {
+        todolist = JSON.parse(localStorage.getItem("todolist"));
 
-        todolist.forEach((taskItem) => {
-            const [listItemId, taskText] = taskItem.split(' ');
-            const listItem = document.createElement('li');
-            listItem.classList.add('d-flex');
-            listItem.id = listItemId;
+        todolist.forEach((task) => {
+            const listItem = document.createElement("li");
+            listItem.classList.add("d-flex");
+            listItem.id = task.id;
             listItem.innerHTML = `
                 <div class="textTask form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                    <input type='text' placeholder=${taskText}>
+                    <span>${task.text}</span>
                 </div>
                 <div class="editDeleteBtn">
                     <button class="btnTrashLi" type="button"><i class="bi bi-trash"></i></button>
-                </div>`;
-            taskList.appendChild(listItem);
+                </div>
+            `;
 
-            const checkbox = listItem.querySelector('.form-check-input');
-            checkbox.addEventListener('change', () => {
+            if (task.completed) {
+                listItem.style.textDecoration = "line-through";
+                completedTaskList.appendChild(listItem);
+            } else {
+                taskList.appendChild(listItem);
+            }
+
+            const checkbox = listItem.querySelector(".form-check-input");
+            checkbox.checked = task.completed;
+
+            checkbox.addEventListener("change", () => {
                 if (checkbox.checked) {
                     moveToCompletedTasks(listItem);
-                }
-                else {
+                } else {
                     moveBackToTaskList(listItem);
                 }
             });
-
-            listItem.addEventListener('click', editTask)
-            listItem.addEventListener('click', deleteTask)
         });
     }
 };
 
-const moveToCompletedTasks = (listItem) => {
-    const completedTaskList = document.getElementById('CompletedTaskList');
-    listItem.style.textDecoration = "line-through"
-    completedTaskList.appendChild(listItem);
-};
-const moveBackToTaskList = (listItem) => {
-    const taskList = document.getElementById('list');
-    listItem.style.textDecoration = "none"
-    taskList.appendChild(listItem);
-};
-
-// Suppression du local storagec
+// Fonction pour supprimer toutes les tâches et effacer le localStorage
 const deleteAllTask = () => {
-    clearStorage()
-}
-// Suppresion d'une tâche 
+    localStorage.removeItem("todolist");
+    taskList.innerHTML = "";
+    completedTaskList.innerHTML = "";
+};
 
-// listItem.addEventListener('click' removeTask )
-
-/* ecouteur d'evenement */
-btnAddEl.addEventListener('click', addTask)
-btnResetEl.addEventListener('click', deleteAllTask)
-window.addEventListener('load', restoreTask)
+// Ajouter des écouteurs d'événements
+btnAddEl.addEventListener("click", addTask);
+btnResetEl.addEventListener("click", deleteAllTask);
+window.addEventListener("load", restoreTask);
